@@ -1,0 +1,36 @@
+{
+    "name": "center page",
+    "description": "center your web pages such as google search results, github repository page...",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js"
+    },
+    "permissions": [
+        "storage",
+        "contextMenus",
+        "activeTab",
+        "scripting",
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://*/*",
+        "http://*/*"
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "/images/align-center16.png",
+            "32": "/images/align-center32.png",
+            "48": "/images/align-center48.png",
+            "128": "/images/align-center128.png"
+        }
+    },
+    "icons": {
+        "16": "/images/align-center16.png",
+        "32": "/images/align-center32.png",
+        "48": "/images/align-center48.png",
+        "128": "/images/align-center128.png"
+    },
+    "options_page": "options.html"
+}
