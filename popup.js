@@ -1,20 +1,31 @@
-let changeColor = document.getElementById('changeColor');
+let switchButton = document.getElementById('switch-key');
 
-chrome.storage.sync.get('color', ({color}) => {
-    changeColor.style.backgroundColor = color;
+switchButton.addEventListener('change', (obj) => {
+    if(obj.checked){
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {action: "active"}, function(response) {
+                if(response.status === false){
+                    obj.checked = false;
+                }
+            });
+        });
+    }
+    if(!obj.checked){
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {action: "inactive"}, function(response) {
+                if(response.status === false){
+                    obj.checked = true;
+                }
+            });
+        });
+    }
+})
+
+chrome.runtime.sendMessage({action: "get_active_list"}, async function(response) {
+  const activeList = response.activeList
+  console.log(activeList)
+  let [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+  if(activeList[tab.id]){
+      switchButton.checked = true;
+  }
 });
-
-changeColor.addEventListener("click", async () => {
-    let [tab] = await chrome.tabs.query({active: true, currentWindow: true});
-    chrome.scripting.executeScript({
-        target: {tabId: tab.id},
-        function: setPageBackgroundColor,
-    })
-});
-
-
-function setPageBackgroundColor() {
-    chrome.storage.sync.get('color', ({color}) => {
-        document.body.style.backgroundColor = color;
-    });
-}
