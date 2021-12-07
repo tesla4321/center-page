@@ -31,6 +31,5 @@
         "32": "/images/align-center32.png",
         "48": "/images/align-center48.png",
         "128": "/images/align-center128.png"
-    },
-    "options_page": "options.html"
+    }
 }
